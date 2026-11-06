@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f3"><meta name="description" content="A simple dashboard to record skills and track your learning progress.">
+  <title>SkillTrack — Student Skill Tracking Dashboard</title><link rel="stylesheet" href="styles.css"><script src="app.js" defer></script>
+</head>
+<body>
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <main id="auth-view" class="auth-shell">
+    <section class="auth-brand">
+      <div class="brand-mark">S<span>✳</span></div><p class="eyebrow">YOUR GROWTH, MADE VISIBLE</p>
+      <h1>Small steps.<br><em>Real progress.</em></h1>
+      <p class="auth-copy">Build a clearer picture of what you know, what you're learning, and where you're headed next.</p>
+      <div class="auth-note"><span class="note-dot"></span> A little better every day.</div>
+    </section>
+    <section class="auth-panel">
+      <div class="auth-card">
+        <p class="eyebrow" id="auth-eyebrow">WELCOME BACK</p><h2 id="auth-title">Sign in to SkillTrack</h2><p class="muted" id="auth-subtitle">Pick up where your learning left off.</p>
+        <form id="auth-form" novalidate>
+          <div class="field" id="name-field" hidden><label for="auth-name">Your name</label><input id="auth-name" name="name" autocomplete="name" maxlength="80" placeholder="e.g. Aanya Sharma"></div>
+          <div class="field"><label for="auth-email">Email address</label><input id="auth-email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@college.edu"></div>
+          <div class="field"><label for="auth-password">Password</label><input id="auth-password" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128" placeholder="At least 8 characters"></div>
+          <p id="auth-error" class="form-error" role="alert"></p><button id="auth-submit" class="button button-primary button-wide" type="submit">Sign in <span>→</span></button>
+        </form>
+        <p class="auth-switch"><span id="auth-switch-copy">New to SkillTrack?</span> <button id="auth-switch" class="text-button" type="button">Create an account</button></p>
+        <p class="tiny-note">Your account is secured by Supabase Authentication.</p>
+      </div>
+    </section>
+  </main>
+
+  <div id="app-view" class="app-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard" aria-label="SkillTrack dashboard"><span class="brand-mark small">S<span>✳</span></span><span>skilltrack</span></a>
+      <p class="nav-label">WORKSPACE</p>
+      <nav class="main-nav" aria-label="Main navigation">
+        <button class="nav-item active" data-view="dashboard"><span class="nav-icon">◫</span> Overview</button>
+        <button class="nav-item" data-view="skills"><span class="nav-icon">◎</span> My skills <span class="nav-count" id="nav-skill-count">0</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="sidebar-tip"><span class="tip-spark">✦</span><p class="tip-title">Keep showing up.</p><p class="tip-copy">Progress isn't always loud. Keep track of the little wins.</p></div><button id="logout-button" class="nav-item logout"><span class="nav-icon">↪</span> Sign out</button></div>
+    </aside>
+    <div class="main-column">
+      <header class="topbar"><button id="mobile-menu" class="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">☰</button><div class="breadcrumb">Workspace <span>/</span> <strong id="breadcrumb-current">Overview</strong></div><div class="topbar-right"><span class="today-label" id="today-label"></span><div class="avatar" id="user-avatar">S</div><span id="user-name" class="user-name">Student</span></div></header>
+      <main class="page-content">
+        <section id="dashboard-page" class="page-view">
+          <div class="page-heading"><div><p class="eyebrow">YOUR LEARNING SPACE</p><h1 id="welcome-heading">Good to see you.</h1><p class="muted">Every skill you build is a step toward your next opportunity.</p></div><button class="button button-primary" id="add-skill-top">＋ Add a skill</button></div>
+          <div class="stat-grid" id="stats-grid"><article class="stat-card"><span class="stat-icon lavender">◎</span><p>Total skills</p><strong id="stat-total">—</strong><small>Skills you're developing</small></article><article class="stat-card"><span class="stat-icon mint">↗</span><p>Targets reached</p><strong id="stat-track">—</strong><small>At or above your target</small></article><article class="stat-card"><span class="stat-icon peach">◷</span><p>In progress</p><strong id="stat-progress">—</strong><small>Room to keep growing</small></article><article class="stat-card"><span class="stat-icon blue">✳</span><p>Skill areas</p><strong id="stat-categories">—</strong><small>Different areas explored</small></article></div>
+          <div class="dashboard-grid"><section class="panel recent-panel"><div class="panel-heading"><div><h2>Recently updated</h2><p class="muted">Your latest skill check-ins</p></div><button class="text-button" data-go="skills">View all →</button></div><div id="recent-skills" class="recent-list"></div></section><section class="panel focus-panel"><div class="panel-heading"><div><h2>Your focus</h2><p class="muted">A quick look at your skill areas</p></div></div><div id="category-breakdown" class="category-breakdown"></div><div class="focus-foot"><span class="focus-star">✦</span><p><strong>Keep your goals realistic.</strong><br>Choose one small action you can repeat this week.</p></div></section></div>
+          <section class="quote-strip"><div class="quote-mark">“</div><div><p>Learning is not a race. It's a collection of small, consistent steps.</p><span>YOUR SKILLTRACK REMINDER</span></div><span class="quote-decoration">✳</span></section>
+        </section>
+        <section id="skills-page" class="page-view" hidden>
+          <div class="page-heading"><div><p class="eyebrow">YOUR PERSONAL INVENTORY</p><h1>My skills</h1><p class="muted">Track what you know and choose what to learn next.</p></div><button class="button button-primary" id="add-skill-list">＋ Add a skill</button></div>
+          <section class="panel skills-panel"><div class="filter-row"><div class="search-box"><span>⌕</span><input id="skill-search" type="search" placeholder="Search your skills..." aria-label="Search skills"></div><select id="category-filter" aria-label="Filter by category"><option value="">All categories</option></select><select id="status-filter" aria-label="Filter by progress"><option value="">All progress</option><option value="in-progress">In progress</option><option value="on-track">Target reached</option></select></div><div id="skills-list" class="skills-list"></div><p class="results-count" id="results-count"></p></section>
+        </section>
+      </main>
+      <footer class="footer"><span>SkillTrack <span class="footer-dot">•</span> Built for steady growth</span><span>One skill at a time ✳</span></footer>
+    </div>
+  </div>
+
+  <dialog id="skill-dialog" class="skill-dialog"><form id="skill-form" novalidate><div class="dialog-heading"><div><p class="eyebrow" id="dialog-eyebrow">MAKE IT COUNT</p><h2 id="dialog-title">Add a skill</h2><p class="muted">Be honest about today. You can always grow from here.</p></div><button type="button" id="dialog-close" class="icon-button" aria-label="Close dialog">×</button></div><input type="hidden" id="skill-id"><div class="field"><label for="skill-name">Skill name</label><input id="skill-name" maxlength="80" required placeholder="e.g. JavaScript fundamentals"></div><div class="form-two"><div class="field"><label for="skill-category">Category</label><select id="skill-category" required></select></div><div class="field"><label for="skill-current">Current level</label><select id="skill-current" required></select></div></div><div class="field"><label for="skill-target">Target level</label><select id="skill-target" required></select></div><div class="field"><label for="skill-notes">Notes <span class="optional">(optional)</span></label><textarea id="skill-notes" maxlength="500" rows="3" placeholder="What have you practised? What's your next step?"></textarea><div class="character-count"><span id="notes-count">0</span>/500</div></div><p id="skill-form-error" class="form-error" role="alert"></p><div class="dialog-actions"><button type="button" id="dialog-cancel" class="button button-quiet">Cancel</button><button type="submit" id="skill-save" class="button button-primary">Save skill <span>→</span></button></div></form></dialog>
+  <dialog id="confirm-dialog" class="confirm-dialog"><div class="confirm-content"><span class="confirm-icon">!</span><h2>Delete this skill?</h2><p class="muted">This will permanently remove the skill and its progress history. This action can't be undone.</p><div class="dialog-actions"><button id="delete-cancel" class="button button-quiet">Keep skill</button><button id="delete-confirm" class="button button-danger">Delete skill</button></div></div></dialog>
+</body></html>

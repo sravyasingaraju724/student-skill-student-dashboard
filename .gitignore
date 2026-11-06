@@ -1,0 +1,43 @@
+backend/.env
+backend/node_modules/
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.env
+npm-debug.log*
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+
+# Node.js dependencies
+node_modules/
+**/node_modules/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Build and coverage files
+dist/
+build/
+coverage/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor settings
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
